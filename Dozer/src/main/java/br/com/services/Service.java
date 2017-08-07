@@ -24,6 +24,16 @@ public class Service {
 		Catalog catalog = populaCatalogComXML(); //REALIZO A CHAMADA PARA O METODO RESPONSÁVEL POR FAZER A TRADUÇÃO DO XML PARA UM OBJETO JAVA (JAXB)
 		CatalogDestination catalogDestination = (CatalogDestination) mapper.map (catalog, CatalogDestination.class, "caseA");
 
+		imprimirCatalogDestination(catalogDestination);
+	}
+
+	public Catalog populaCatalogComXML(){
+		String xml = lerArquivoTxt();
+		Catalog catalog = (Catalog) new ConversorXMLJava().unmarshal(Catalog.class, xml);
+		return catalog;
+	}
+
+	private void imprimirCatalogDestination(CatalogDestination catalogDestination) {
 		for (br.com.beans.CatalogDestination.Book catalogDestinationBook : catalogDestination.getbookDestination()) {
 			System.out.println("Author: " + catalogDestinationBook.getAuthor() + "\n" +
 					"Title: " + catalogDestinationBook.getTitle() + "\n" +
@@ -32,12 +42,6 @@ public class Service {
 					"PublishDate: " + catalogDestinationBook.getPublishDate() + "\n" +
 					"Description: " + catalogDestinationBook.getDescription() + "\n");
 		}
-	}
-
-	public Catalog populaCatalogComXML(){
-		String xml = lerArquivoTxt();
-		Catalog catalog = (Catalog) new ConversorXMLJava().unmarshal(Catalog.class, xml);
-		return catalog;
 	}
 
 	public String lerArquivoTxt() {
